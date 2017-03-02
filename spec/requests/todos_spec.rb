@@ -21,7 +21,7 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  #GET /todos/:id
+  # GET /todos/:id
   describe 'GET /todos/:id' do
     before {get "/todos/#{todo_id}"}
 
@@ -48,7 +48,26 @@ RSpec.describe 'Todos API', type: :request do
         expect(response.body).to match(/Couldn't find Todo/)
       end
     end
+  end
 
+  # POST /todos
+  describe 'POST /todos' do
+    # let(:payload) { {title: 'API Testing', created_by: 'foo'} }
+
+    context 'when request is valid' do
+      before {
+        payload = { title: 'API Testing', created_by: 'foo' }
+        post '/todos', params: payload.to_json
+      }
+
+      it 'creates a given todo' do
+        json = JSON.parse(response.body)
+        expect(json).not_to be_empty
+      end
+      it 'returns 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
   end
 
 end
