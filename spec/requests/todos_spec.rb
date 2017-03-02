@@ -21,4 +21,22 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
+  #GET /todos/:id
+  describe 'GET /todos/:id' do
+    before {get "/todos/#{todo_id}"}
+
+    context 'when record exists' do
+      it 'returns todo' do
+        json = JSON.parse(response.body)
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(todo_id)
+      end
+
+      it 'returns status code: 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+
+  end
+
 end
