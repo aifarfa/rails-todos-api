@@ -52,20 +52,33 @@ RSpec.describe 'Todos API', type: :request do
 
   # POST /todos
   describe 'POST /todos' do
-    # let(:payload) { {title: 'API Testing', created_by: 'foo'} }
+    # valid payload
+    let(:payload) { { title: 'Testing API', created_by: '1' } }
 
     context 'when request is valid' do
-      before {
-        payload = { title: 'API Testing', created_by: 'foo' }
-        post '/todos', params: payload.to_json
-      }
+      before { post '/todos', params: payload }
 
       it 'creates a given todo' do
         json = JSON.parse(response.body)
         expect(json).not_to be_empty
+        expect(json['title']).to eq('Testing API')
       end
+
       it 'returns 201' do
         expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when request is invalid' do
+      before { post '/todos', params: { title: 'Should fail'} }
+
+      it 'returns 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns validation failed message' do
+        puts response.body
+        expect(response.body).to match(/Validation failed/)
       end
     end
   end
