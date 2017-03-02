@@ -15,6 +15,12 @@ class TodosController < ApplicationController
     render json: @todo, status: :created
   end
 
+  def update
+    @todo = Todo.find(params[:id])
+    @todo.update(todo_params)
+    head :no_content
+  end
+
   private
 
   def todo_params

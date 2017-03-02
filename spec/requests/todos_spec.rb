@@ -83,4 +83,29 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
+  # PUT /todos
+  describe 'PUT /todos' do
+    let(:payload) { { title: 'Awesome!' } }
+
+    context 'when record exists' do
+      before { put "/todos/#{todo_id}", params: payload }
+
+      it 'returns 204 no content' do
+        expect(response).to have_http_status(204)
+      end
+
+      it 'response no content' do
+        expect(response.body).to be_empty
+      end
+    end
+
+    context 'when record does not exists' do
+      before { put "/todos/100", params: payload }
+
+      it 'returns 404 not found' do
+        expect(response).to have_http_status(404)
+      end
+    end
+  end
+
 end
