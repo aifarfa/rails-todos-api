@@ -90,11 +90,8 @@ RSpec.describe 'Todos API', type: :request do
     context 'when record exists' do
       before { put "/todos/#{todo_id}", params: payload }
 
-      it 'returns 204 no content' do
+      it 'returns status code 204' do
         expect(response).to have_http_status(204)
-      end
-
-      it 'response no content' do
         expect(response.body).to be_empty
       end
     end
@@ -105,6 +102,15 @@ RSpec.describe 'Todos API', type: :request do
       it 'returns 404 not found' do
         expect(response).to have_http_status(404)
       end
+    end
+  end
+
+  describe 'DELETE /todos/:id' do
+    before { delete "/todos/#{todo_id}" }
+
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
+      expect(response.body).to be_empty
     end
   end
 
