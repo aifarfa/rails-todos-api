@@ -6,13 +6,8 @@ class TodosController < ApplicationController
   end
 
   def show
-    begin
-      @todo = Todo.find(params[:id])
-      render json: @todo
-    rescue ActiveRecord::RecordNotFound => e
-      puts e.message
-      render json: {message: e.message}, status: :not_found
-    end
+    @todo = Todo.find(params[:id])
+    render json: @todo
   end
 
 end
